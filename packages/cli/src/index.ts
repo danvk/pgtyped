@@ -62,7 +62,7 @@ class FileProcessor {
   private async processJob(connection: any, job: TransformJob) {
     for (let fileName of job.files) {
       fileName = path.relative(process.cwd(), fileName);
-      console.log(`Processing ${fileName}`);
+      console.log(`Processing ${fileName} ...`);
       const ppath = path.parse(fileName);
       let decsFileName;
       if (job.transform.emitTemplate) {

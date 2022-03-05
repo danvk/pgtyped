@@ -1,0 +1,22 @@
+{
+  "transforms": [
+    {
+      "mode": "sql",
+      "include": "*.sql",
+      "emitTemplate": "{{dir}}/{{name}}.queries.ts"
+    },
+    {
+      "mode": "ts",
+      "include": "*.ts",
+      "emitTemplate": "{{dir}}/{{name}}.types.ts"
+    }
+  ],
+  "srcDir": "./toy",
+  "failOnError": true,
+  "camelCaseColumnNames": false,
+  "db": {
+    "host": "localhost",
+    "user": "danvk",
+    "dbName": "postgres"
+  }
+}

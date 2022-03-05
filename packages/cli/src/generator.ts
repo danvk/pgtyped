@@ -19,6 +19,7 @@ import path from 'path';
 export interface IField {
   fieldName: string;
   fieldType: string;
+  comment?: string;
 }
 
 const interfaceGen = (interfaceName: string, contents: string) =>
@@ -31,7 +32,9 @@ export const generateInterface = (interfaceName: string, fields: IField[]) => {
     .slice()
     .sort((a, b) => a.fieldName.localeCompare(b.fieldName));
   const contents = sortedFields
-    .map(({ fieldName, fieldType }) => `  ${fieldName}: ${fieldType};`)
+    .map(({ fieldName, fieldType, comment }) =>
+      (comment ? `  /** ${comment} */\n` : '') +
+      `  ${fieldName}: ${fieldType};`)
     .join('\n');
   return interfaceGen(interfaceName, contents);
 };
@@ -89,7 +92,7 @@ export async function queryToTypeDeclarations(
   const returnFieldTypes: IField[] = [];
   const paramFieldTypes: IField[] = [];
 
-  returnTypes.forEach(({ returnName, type, nullable }) => {
+  returnTypes.forEach(({ returnName, type, nullable, comment }) => {
     let tsTypeName = types.use(type);
     if (nullable || nullable == null) {
       tsTypeName += ' | null';
@@ -100,6 +103,7 @@ export async function queryToTypeDeclarations(
         ? camelCase(returnName)
         : returnName,
       fieldType: tsTypeName,
+      comment,
     });
   });
 
@@ -118,7 +122,7 @@ export async function queryToTypeDeclarations(
       let tsTypeName = types.use(pgTypeName);
 
       if (!param.required) {
-        tsTypeName += ' | null | void';
+        tsTypeName += ' | null';
       }
 
       paramFieldTypes.push({
@@ -132,7 +136,7 @@ export async function queryToTypeDeclarations(
           const paramType = types.use(params[p.assignedIndex - 1]);
           return p.required
             ? `    ${p.name}: ${paramType}`
-            : `    ${p.name}: ${paramType} | null | void`;
+            : `    ${p.name}: ${paramType} | null`;
         })
         .join(',\n');
       fieldType = `{\n${fieldType}\n  }`;
