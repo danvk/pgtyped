@@ -8,10 +8,10 @@ export type Json = null | boolean | number | string | Json[] | { [key: string]: 
 export type comment_status_enumArray = (comment_status_enum)[];
 
 /** 'GetComments' parameters type */
-export type IGetCommentsParams = void;
+export type GetCommentsParams = void;
 
 /** 'GetComments' return type */
-export interface IGetCommentsResult {
+export interface GetCommentsResult {
   author_id: string;
   /** Content of the comment, formatted with Markdown. May contain @mentions. */
   content_md: string;
@@ -26,9 +26,9 @@ export interface IGetCommentsResult {
 }
 
 /** 'GetComments' query type */
-export interface IGetCommentsQuery {
-  params: IGetCommentsParams;
-  result: IGetCommentsResult;
+export interface GetCommentsQuery {
+  params: GetCommentsParams;
+  result: GetCommentsResult;
 }
 
 const getCommentsIR: any = {"name":"getComments","params":[],"usedParamSet":{},"statement":{"body":"SELECT * FROM comment","loc":{"a":24,"b":44,"line":2,"col":0}}};
@@ -39,21 +39,21 @@ const getCommentsIR: any = {"name":"getComments","params":[],"usedParamSet":{},"
  * SELECT * FROM comment
  * ```
  */
-export const getComments = new PreparedQuery<IGetCommentsParams,IGetCommentsResult>(getCommentsIR);
+export const getComments = new PreparedQuery<GetCommentsParams,GetCommentsResult>(getCommentsIR);
 
 
 /** 'GetTime' parameters type */
-export type IGetTimeParams = void;
+export type GetTimeParams = void;
 
 /** 'GetTime' return type */
-export interface IGetTimeResult {
+export interface GetTimeResult {
   now: Date | null;
 }
 
 /** 'GetTime' query type */
-export interface IGetTimeQuery {
-  params: IGetTimeParams;
-  result: IGetTimeResult;
+export interface GetTimeQuery {
+  params: GetTimeParams;
+  result: GetTimeResult;
 }
 
 const getTimeIR: any = {"name":"getTime","params":[],"usedParamSet":{},"statement":{"body":"SELECT NOW()","loc":{"a":68,"b":79,"line":5,"col":0}}};
@@ -64,6 +64,6 @@ const getTimeIR: any = {"name":"getTime","params":[],"usedParamSet":{},"statemen
  * SELECT NOW()
  * ```
  */
-export const getTime = new PreparedQuery<IGetTimeParams,IGetTimeResult>(getTimeIR);
+export const getTime = new PreparedQuery<GetTimeParams,GetTimeResult>(getTimeIR);
 
 

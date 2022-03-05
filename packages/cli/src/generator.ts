@@ -75,11 +75,11 @@ export async function queryToTypeDeclarations(
     // tslint:disable-next-line:no-console
     console.error('Error in query. Details: %o', typeData);
     const returnInterface = generateTypeAlias(
-      `I${interfaceName}Result`,
+      `${interfaceName}Result`,
       'never',
     );
     const paramInterface = generateTypeAlias(
-      `I${interfaceName}Params`,
+      `${interfaceName}Params`,
       'never',
     );
     const resultErrorComment = `/** Query '${queryName}' is invalid, so its result is assigned type 'never' */\n`;
@@ -156,23 +156,23 @@ export async function queryToTypeDeclarations(
   // tslint:disable-next-line:no-console
   types.errors.forEach((err) => console.log(err));
 
-  const resultInterfaceName = `I${interfaceName}Result`;
+  const resultInterfaceName = `${interfaceName}Result`;
   const returnTypesInterface =
     `/** '${queryName}' return type */\n` +
     (returnFieldTypes.length > 0
-      ? generateInterface(`I${interfaceName}Result`, returnFieldTypes)
+      ? generateInterface(`${interfaceName}Result`, returnFieldTypes)
       : generateTypeAlias(resultInterfaceName, 'void'));
 
-  const paramInterfaceName = `I${interfaceName}Params`;
+  const paramInterfaceName = `${interfaceName}Params`;
   const paramTypesInterface =
     `/** '${queryName}' parameters type */\n` +
     (paramFieldTypes.length > 0
-      ? generateInterface(`I${interfaceName}Params`, paramFieldTypes)
+      ? generateInterface(`${interfaceName}Params`, paramFieldTypes)
       : generateTypeAlias(paramInterfaceName, 'void'));
 
   const typePairInterface =
     `/** '${queryName}' query type */\n` +
-    generateInterface(`I${interfaceName}Query`, [
+    generateInterface(`${interfaceName}Query`, [
       { fieldName: 'params', fieldType: paramInterfaceName },
       { fieldName: 'result', fieldType: resultInterfaceName },
     ]);
@@ -239,8 +239,8 @@ async function generateTypedecsFromFile(
         query: {
           name: camelCase(sqlQueryAST.name),
           ast: sqlQueryAST,
-          paramTypeAlias: `I${pascalCase(sqlQueryAST.name)}Params`,
-          returnTypeAlias: `I${pascalCase(sqlQueryAST.name)}Result`,
+          paramTypeAlias: `${pascalCase(sqlQueryAST.name)}Params`,
+          returnTypeAlias: `${pascalCase(sqlQueryAST.name)}Result`,
         },
         fileName,
         typeDeclaration: result,
