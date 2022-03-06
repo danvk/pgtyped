@@ -2,6 +2,7 @@ import { AsyncQueue, messages, PreparedObjectType } from '@pgtyped/wire';
 import crypto from 'crypto';
 import debugBase from 'debug';
 import * as tls from 'tls';
+import { pascalCase } from 'pascal-case';
 import { IInterpolatedQuery, QueryParam } from './preprocessor';
 import {
   checkServerFinalMessage,
@@ -270,6 +271,7 @@ interface TypeRow {
 // Aggregate rows from database types catalog into MappableTypes
 export function reduceTypeRows(
   typeRows: TypeRow[],
+  camelCaseTypeNames?: boolean,
 ): Record<string, MappableType> {
   const enumTypes = typeRows
     .filter((r) => r.typeKind === DatabaseTypeKind.Enum)
@@ -280,7 +282,7 @@ export function reduceTypeRows(
       return {
         ...typeMap,
         [oid]: {
-          name: typeName,
+          name: camelCaseTypeNames ? pascalCase(typeName) : typeName,
           // Merge enum values
           enumValues: [...(isEnum(typ) ? typ.enumValues : []), enumLabel],
         },
@@ -303,7 +305,7 @@ export function reduceTypeRows(
         return {
           ...typeMap,
           [oid]: {
-            name: typeName,
+            name: camelCaseTypeNames ? pascalCase(typeName) : typeName,
             elementType: enumTypes[elementTypeOid],
           },
         };
@@ -381,6 +383,7 @@ async function getComments(fields: TypeField[], queue: AsyncQueue): Promise<Colu
 export async function getTypes(
   queryData: IInterpolatedQuery,
   queue: AsyncQueue,
+  camelCaseTypeNames?: boolean,
 ): Promise<IQueryTypes | IParseError> {
   const typeData = await getTypeData(queryData.query, queue);
   if ('errorCode' in typeData) {
@@ -396,9 +399,10 @@ export async function getTypes(
   console.log('returnTypesOIDs', returnTypesOIDs);
   const usedTypesOIDs = paramTypeOIDs.concat(returnTypesOIDs);
   const typeRows = await runTypesCatalogQuery(usedTypesOIDs, queue);
+  console.log('type rows:', typeRows);
   const commentRows = await getComments(fields, queue);
   console.log('commentRows:', commentRows);
-  const typeMap = reduceTypeRows(typeRows);
+  const typeMap = reduceTypeRows(typeRows, camelCaseTypeNames);
 
   const attrMatcher = ({
     tableOID,

@@ -1,11 +1,11 @@
 /** Types generated for queries found in "toy/query.sql" */
 import { PreparedQuery } from '@pgtyped/query';
 
-export type comment_status_enum = 'archived' | 'complete' | 'deleted' | 'pending';
+export type CommentStatusEnum = 'archived' | 'complete' | 'deleted' | 'pending';
+
+export type CommentStatusEnumArray = (CommentStatusEnum)[];
 
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
-
-export type comment_status_enumArray = (comment_status_enum)[];
 
 /** 'GetComments' parameters type */
 export type GetCommentsParams = void;
@@ -22,7 +22,7 @@ export interface GetCommentsResult {
   metadata: Json | null;
   modified_at: Date | null;
   /** List of statuses; Just an array for testing! */
-  statuses: comment_status_enumArray | null;
+  statuses: CommentStatusEnumArray | null;
 }
 
 /** 'GetComments' query type */

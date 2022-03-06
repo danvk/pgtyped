@@ -6,6 +6,7 @@ import * as t from 'io-ts';
 import { reporter } from 'io-ts-reporters';
 import tls from 'tls';
 import parseDatabaseUri, { DatabaseConfig } from 'ts-parse-database-url';
+import { boolean } from 'fp-ts';
 
 const transformCodecProps = {
   include: t.string,
@@ -33,6 +34,7 @@ const configParser = t.type({
   srcDir: t.string,
   failOnError: t.union([t.boolean, t.undefined]),
   camelCaseColumnNames: t.union([t.boolean, t.undefined]),
+  pascalCaseTypeNames: t.union([t.boolean, t.undefined]),
   dbUrl: t.union([t.string, t.undefined]),
   db: t.union([
     t.type({
@@ -60,6 +62,7 @@ export interface ParsedConfig {
   };
   failOnError: boolean;
   camelCaseColumnNames: boolean;
+  pascalCaseTypeNames: boolean;
   transforms: IConfig['transforms'];
   srcDir: IConfig['srcDir'];
 }
@@ -128,6 +131,7 @@ export function parseConfig(
     srcDir,
     failOnError,
     camelCaseColumnNames,
+    pascalCaseTypeNames,
   } = configObject as IConfig;
 
   // CLI connectionUri flag takes precedence over the env and config one
@@ -152,5 +156,6 @@ export function parseConfig(
     srcDir,
     failOnError: failOnError ?? false,
     camelCaseColumnNames: camelCaseColumnNames ?? false,
+    pascalCaseTypeNames: pascalCaseTypeNames ?? false,
   };
 }

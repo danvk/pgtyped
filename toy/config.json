@@ -14,6 +14,7 @@
   "srcDir": "./toy",
   "failOnError": true,
   "camelCaseColumnNames": false,
+  "pascalCaseTypeNames": true,
   "db": {
     "host": "localhost",
     "user": "danvk",
