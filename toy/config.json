@@ -16,6 +16,7 @@
   "camelCaseColumnNames": false,
   "pascalCaseTypeNames": true,
   "datesAsStrings": true,
+  "jsonAsUnknown": true,
   "db": {
     "host": "localhost",
     "user": "danvk",

@@ -21,6 +21,7 @@ const Json: Type = {
   definition:
     'null | boolean | number | string | Json[] | { [key: string]: Json }',
 };
+const JsonAsUnknown: Type = { name: 'unknown' };
 const getArray = (baseType: Type): Type => ({
   name: `${baseType.name}Array`,
   definition: `(${baseType.definition ?? baseType.name})[]`,
@@ -105,7 +106,13 @@ export function getTypeMappingForConfig(config: ParsedConfig): TypeMapping {
     for (const [k, t] of Object.entries(DefaultTypeMapping)) {
       if (t === Date) {
         overrides[k as BuiltinTypes] = DateAsString;
-        console.log('overriding', k);
+      }
+    }
+  }
+  if (config.jsonAsUnknown) {
+    for (const [k, t] of Object.entries(DefaultTypeMapping)) {
+      if (t === Json) {
+        overrides[k as BuiltinTypes] = JsonAsUnknown;
       }
     }
   }

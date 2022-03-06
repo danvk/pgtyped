@@ -36,6 +36,7 @@ const configParser = t.type({
   camelCaseColumnNames: t.union([t.boolean, t.undefined]),
   pascalCaseTypeNames: t.union([t.boolean, t.undefined]),
   datesAsStrings: t.union([t.boolean, t.undefined]),
+  jsonAsUnknown: t.union([t.boolean, t.undefined]),
   dbUrl: t.union([t.string, t.undefined]),
   db: t.union([
     t.type({
@@ -65,6 +66,7 @@ export interface ParsedConfig {
   camelCaseColumnNames: boolean;
   pascalCaseTypeNames: boolean;
   datesAsStrings: boolean;
+  jsonAsUnknown: boolean;
   transforms: IConfig['transforms'];
   srcDir: IConfig['srcDir'];
 }
@@ -135,6 +137,7 @@ export function parseConfig(
     camelCaseColumnNames,
     pascalCaseTypeNames,
     datesAsStrings,
+    jsonAsUnknown,
   } = configObject as IConfig;
 
   // CLI connectionUri flag takes precedence over the env and config one
@@ -161,5 +164,6 @@ export function parseConfig(
     camelCaseColumnNames: camelCaseColumnNames ?? false,
     pascalCaseTypeNames: pascalCaseTypeNames ?? false,
     datesAsStrings: datesAsStrings ?? false,
+    jsonAsUnknown: jsonAsUnknown ?? false,
   };
 }

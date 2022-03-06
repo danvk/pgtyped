@@ -8,8 +8,6 @@ export type CommentStatusEnum = 'archived' | 'complete' | 'deleted' | 'pending';
 
 export type CommentStatusEnumArray = (CommentStatusEnum)[];
 
-export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
-
 /** 'GetComments' parameters type */
 export type GetCommentsParams = void;
 
@@ -22,7 +20,7 @@ export interface GetCommentsResult {
   doc_id: string;
   id: string;
   /** Additional comment info @type {CommentMetadata} */
-  metadata: Json | null;
+  metadata: unknown | null;
   modified_at: string | null;
   /** List of statuses; Just an array for testing! */
   statuses: CommentStatusEnumArray | null;
