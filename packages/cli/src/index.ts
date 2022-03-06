@@ -10,6 +10,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { parseConfig, ParsedConfig, TransformConfig } from './config';
 import { generateDeclarationFile } from './generator';
+import { getTypeMappingForConfig, TypeAllocator } from './types';
 import { debug } from './util';
 
 // tslint:disable:no-console
@@ -71,6 +72,9 @@ class FileProcessor {
         const suffix = job.transform.mode === 'ts' ? 'types.ts' : 'ts';
         decsFileName = path.resolve(ppath.dir, `${ppath.name}.${suffix}`);
       }
+
+      const typeAllocator = new TypeAllocator(getTypeMappingForConfig(this.config));
+
       const contents = fs.readFileSync(fileName).toString();
       const { declarationFileContents, typeDecs } =
         await generateDeclarationFile(
@@ -78,7 +82,7 @@ class FileProcessor {
           fileName,
           connection,
           job.transform.mode,
-          void 0,
+          typeAllocator,
           this.config,
         );
       if (typeDecs.length > 0) {

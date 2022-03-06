@@ -12,7 +12,7 @@ import {
 import { camelCase } from 'camel-case';
 import { pascalCase } from 'pascal-case';
 import { ProcessingMode } from './index';
-import { DefaultTypeMapping, TypeAllocator } from './types';
+import { TypeAllocator } from './types';
 import { ParsedConfig } from './config';
 import path from 'path';
 
@@ -209,7 +209,7 @@ async function generateTypedecsFromFile(
   fileName: string,
   connection: any,
   mode: 'ts' | 'sql',
-  types: TypeAllocator = new TypeAllocator(DefaultTypeMapping),
+  types: TypeAllocator,
   config: ParsedConfig,
 ): Promise<ITypedQuery[]> {
   const results: ITypedQuery[] = [];
@@ -276,7 +276,7 @@ export async function generateDeclarationFile(
   fileName: string,
   connection: any,
   mode: 'ts' | 'sql',
-  types: TypeAllocator = new TypeAllocator(DefaultTypeMapping),
+  types: TypeAllocator,
   config: ParsedConfig,
 ): Promise<{ typeDecs: ITypedQuery[]; declarationFileContents: string }> {
   if (mode === 'sql') {
@@ -300,6 +300,8 @@ export async function generateDeclarationFile(
     : fileName;
 
   let declarationFileContents = '';
+  declarationFileContents += '/* tslint:disable */\n';
+  declarationFileContents += '/* eslint-disable */\n\n';
   declarationFileContents += `/** Types generated for queries found in "${stableFilePath}" */\n`;
   declarationFileContents += types.declaration();
   declarationFileContents += '\n';

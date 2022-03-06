@@ -15,6 +15,7 @@
   "failOnError": true,
   "camelCaseColumnNames": false,
   "pascalCaseTypeNames": true,
+  "datesAsStrings": true,
   "db": {
     "host": "localhost",
     "user": "danvk",

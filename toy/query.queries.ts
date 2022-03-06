@@ -1,3 +1,6 @@
+/* tslint:disable */
+/* eslint-disable */
+
 /** Types generated for queries found in "toy/query.sql" */
 import { PreparedQuery } from '@pgtyped/query';
 
@@ -15,12 +18,12 @@ export interface GetCommentsResult {
   author_id: string;
   /** Content of the comment, formatted with Markdown. May contain @mentions. */
   content_md: string;
-  created_at: Date | null;
+  created_at: string | null;
   doc_id: string;
   id: string;
   /** Additional comment info @type {CommentMetadata} */
   metadata: Json | null;
-  modified_at: Date | null;
+  modified_at: string | null;
   /** List of statuses; Just an array for testing! */
   statuses: CommentStatusEnumArray | null;
 }
@@ -47,7 +50,7 @@ export type GetTimeParams = void;
 
 /** 'GetTime' return type */
 export interface GetTimeResult {
-  now: Date | null;
+  now: string | null;
 }
 
 /** 'GetTime' query type */

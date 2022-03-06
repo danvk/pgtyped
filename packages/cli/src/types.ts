@@ -7,11 +7,13 @@ import {
   MappableType,
   Type,
 } from '@pgtyped/query/lib/type';
+import { ParsedConfig } from './config';
 
 const String: Type = { name: 'string' };
 const Number: Type = { name: 'number' };
 const Boolean: Type = { name: 'boolean' };
 const Date: Type = { name: 'Date' };
+const DateAsString: Type = { name: 'string' };
 const Bytes: Type = { name: 'Buffer' };
 const Void: Type = { name: 'undefined' };
 const Json: Type = {
@@ -95,6 +97,19 @@ export type TypeMapping = Record<BuiltinTypes, Type> & Record<string, Type>;
 
 export function TypeMapping(overrides?: Partial<TypeMapping>): TypeMapping {
   return { ...DefaultTypeMapping, ...overrides };
+}
+
+export function getTypeMappingForConfig(config: ParsedConfig): TypeMapping {
+  const overrides: Partial<TypeMapping> = {};
+  if (config.datesAsStrings) {
+    for (const [k, t] of Object.entries(DefaultTypeMapping)) {
+      if (t === Date) {
+        overrides[k as BuiltinTypes] = DateAsString;
+        console.log('overriding', k);
+      }
+    }
+  }
+  return TypeMapping(overrides);
 }
 
 function declareImport([...names]: Set<string>, from: string): string {
