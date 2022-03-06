@@ -100,21 +100,29 @@ export function TypeMapping(overrides?: Partial<TypeMapping>): TypeMapping {
   return { ...DefaultTypeMapping, ...overrides };
 }
 
-export function getTypeMappingForConfig(config: ParsedConfig): TypeMapping {
+function getOverrides(before: Type, after: Type): Partial<TypeMapping> {
   const overrides: Partial<TypeMapping> = {};
-  if (config.datesAsStrings) {
-    for (const [k, t] of Object.entries(DefaultTypeMapping)) {
-      if (t === Date) {
-        overrides[k as BuiltinTypes] = DateAsString;
-      }
+  for (const [k, t] of Object.entries(DefaultTypeMapping)) {
+    if (t === before) {
+      overrides[k as BuiltinTypes] = after;
     }
   }
+  return overrides;
+}
+
+export function getTypeMappingForConfig(config: ParsedConfig): TypeMapping {
+  let overrides: Partial<TypeMapping> = {};
+  if (config.datesAsStrings) {
+    overrides = {
+      ...overrides,
+      ...getOverrides(Date, DateAsString),
+    };
+  }
   if (config.jsonAsUnknown) {
-    for (const [k, t] of Object.entries(DefaultTypeMapping)) {
-      if (t === Json) {
-        overrides[k as BuiltinTypes] = JsonAsUnknown;
-      }
-    }
+    overrides = {
+      ...overrides,
+      ...getOverrides(Json, JsonAsUnknown),
+    };
   }
   return TypeMapping(overrides);
 }
