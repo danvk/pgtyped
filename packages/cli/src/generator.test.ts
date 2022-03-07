@@ -74,20 +74,20 @@ export type Json = null | boolean | number | string | Json[] | { [key: string]: 
 
       expect(types.declaration()).toEqual(expectedTypes);
       const expected = `/** 'GetNotifications' parameters type */
-export interface IGetNotificationsParams {
-  userId: string | null | void;
+export interface GetNotificationsParams {
+  userId: string | null;
 }
 
 /** 'GetNotifications' return type */
-export interface IGetNotificationsResult {
+export interface GetNotificationsResult {
   payload: Json;
   type: PayloadType;
 }
 
 /** 'GetNotifications' query type */
-export interface IGetNotificationsQuery {
-  params: IGetNotificationsParams;
-  result: IGetNotificationsResult;
+export interface GetNotificationsQuery {
+  params: GetNotificationsParams;
+  result: GetNotificationsResult;
 }\n\n`;
       expect(result).toEqual(expected);
     });
@@ -144,21 +144,21 @@ export interface IGetNotificationsQuery {
         {} as ParsedConfig,
       );
       const expected = `/** 'InsertNotifications' parameters type */
-export interface IInsertNotificationsParams {
+export interface InsertNotificationsParams {
   notification: {
-    payload: Json | null | void,
-    user_id: string | null | void,
-    type: string | null | void
+    payload: Json | null,
+    user_id: string | null,
+    type: string | null
   };
 }
 
 /** 'InsertNotifications' return type */
-export type IInsertNotificationsResult = void;
+export type InsertNotificationsResult = void;
 
 /** 'InsertNotifications' query type */
-export interface IInsertNotificationsQuery {
-  params: IInsertNotificationsParams;
-  result: IInsertNotificationsResult;
+export interface InsertNotificationsQuery {
+  params: InsertNotificationsParams;
+  result: InsertNotificationsResult;
 }
 
 `;
@@ -227,23 +227,23 @@ export interface IInsertNotificationsQuery {
         {} as ParsedConfig,
       );
       const expected = `/** 'DeleteUsers' parameters type */
-export interface IDeleteUsersParams {
-  userId: string | null | void;
-  userName: string | null | void;
-  userNote: string | null | void;
+export interface DeleteUsersParams {
+  userId: string | null;
+  userName: string | null;
+  userNote: string | null;
 }
 
 /** 'DeleteUsers' return type */
-export interface IDeleteUsersResult {
+export interface DeleteUsersResult {
   bote: string | null;
   id: string;
   name: string;
 }
 
 /** 'DeleteUsers' query type */
-export interface IDeleteUsersQuery {
-  params: IDeleteUsersParams;
-  result: IDeleteUsersResult;
+export interface DeleteUsersQuery {
+  params: DeleteUsersParams;
+  result: DeleteUsersResult;
 }
 
 `;
@@ -305,20 +305,20 @@ export type Json = null | boolean | number | string | Json[] | { [key: string]: 
 
       expect(types.declaration()).toEqual(expectedTypes);
       const expected = `/** 'GetNotifications' parameters type */
-export interface IGetNotificationsParams {
-  userId: string | null | void;
+export interface GetNotificationsParams {
+  userId: string | null;
 }
 
 /** 'GetNotifications' return type */
-export interface IGetNotificationsResult {
+export interface GetNotificationsResult {
   payloadCamelCase: Json;
   typeCamelCase: PayloadType;
 }
 
 /** 'GetNotifications' query type */
-export interface IGetNotificationsQuery {
-  params: IGetNotificationsParams;
-  result: IGetNotificationsResult;
+export interface GetNotificationsQuery {
+  params: GetNotificationsParams;
+  result: GetNotificationsResult;
 }\n\n`;
       expect(result).toEqual(expected);
     });
@@ -381,20 +381,20 @@ export type Json = null | boolean | number | string | Json[] | { [key: string]: 
 
       expect(types.declaration()).toEqual(expectedTypes);
       const expected = `/** 'GetNotifications' parameters type */
-export interface IGetNotificationsParams {
-  userIds: readonly (string | null | void)[];
+export interface GetNotificationsParams {
+  userIds: readonly (string | null)[];
 }
 
 /** 'GetNotifications' return type */
-export interface IGetNotificationsResult {
+export interface GetNotificationsResult {
   payloadCamelCase: Json;
   typeCamelCase: PayloadType;
 }
 
 /** 'GetNotifications' query type */
-export interface IGetNotificationsQuery {
-  params: IGetNotificationsParams;
-  result: IGetNotificationsResult;
+export interface GetNotificationsQuery {
+  params: GetNotificationsParams;
+  result: GetNotificationsResult;
 }\n\n`;
       expect(result).toEqual(expected);
     });
@@ -453,20 +453,20 @@ export type Json = null | boolean | number | string | Json[] | { [key: string]: 
 
       expect(types.declaration()).toEqual(expectedTypes);
       const expected = `/** 'GetNotifications' parameters type */
-export interface IGetNotificationsParams {
-  userId: string | null | void;
+export interface GetNotificationsParams {
+  userId: string | null;
 }
 
 /** 'GetNotifications' return type */
-export interface IGetNotificationsResult {
+export interface GetNotificationsResult {
   payload: Json | null;
   type: PayloadType;
 }
 
 /** 'GetNotifications' query type */
-export interface IGetNotificationsQuery {
-  params: IGetNotificationsParams;
-  result: IGetNotificationsResult;
+export interface GetNotificationsQuery {
+  params: GetNotificationsParams;
+  result: GetNotificationsResult;
 }\n\n`;
       expect(result).toEqual(expected);
     });
