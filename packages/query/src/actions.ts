@@ -398,15 +398,10 @@ export async function getTypes(
   const { params, fields } = typeData;
 
   const paramTypeOIDs = params.map((p) => p.oid);
-  console.log('fields = ', fields);
-  console.log('params = ', params);
   const returnTypesOIDs = fields.map((f) => f.typeOID);
-  console.log('returnTypesOIDs', returnTypesOIDs);
   const usedTypesOIDs = paramTypeOIDs.concat(returnTypesOIDs);
   const typeRows = await runTypesCatalogQuery(usedTypesOIDs, queue);
-  console.log('type rows:', typeRows);
   const commentRows = await getComments(fields, queue);
-  console.log('commentRows:', commentRows);
   const typeMap = reduceTypeRows(typeRows, camelCaseTypeNames);
 
   const attrMatcher = ({
