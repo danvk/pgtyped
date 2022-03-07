@@ -356,13 +356,18 @@ interface ColumnComment {
   comment: string;
 }
 
-async function getComments(fields: TypeField[], queue: AsyncQueue): Promise<ColumnComment[]> {
-  const columnFields = fields.filter(f => f.columnAttrNumber > 0);
+async function getComments(
+  fields: TypeField[],
+  queue: AsyncQueue,
+): Promise<ColumnComment[]> {
+  const columnFields = fields.filter((f) => f.columnAttrNumber > 0);
   if (columnFields.length === 0) {
     return [];
   }
 
-  const matchers = columnFields.map(f => `(objoid=${f.tableOID} and objsubid=${f.columnAttrNumber})`);
+  const matchers = columnFields.map(
+    (f) => `(objoid=${f.tableOID} and objsubid=${f.columnAttrNumber})`,
+  );
   const selection = matchers.join(' or ');
 
   // XXX what is classoid?
@@ -370,13 +375,13 @@ async function getComments(fields: TypeField[], queue: AsyncQueue): Promise<Colu
     `SELECT
       objoid, objsubid, description
      FROM pg_description WHERE ${selection};`,
-    queue
+    queue,
   );
 
-  return descriptionRows.map(row => ({
+  return descriptionRows.map((row) => ({
     tableOID: Number(row[0]),
     columnAttrNumber: Number(row[1]),
-    comment: row[2]
+    comment: row[2],
   }));
 }
 
@@ -437,18 +442,17 @@ export async function getTypes(
     {},
   );
 
-  const getAttid =
-    (col: Pick<TypeField, 'tableOID' | 'columnAttrNumber'>) =>
+  const getAttid = (col: Pick<TypeField, 'tableOID' | 'columnAttrNumber'>) =>
     `${col.tableOID}:${col.columnAttrNumber}`;
 
-  const commentMap: {[attid: string]: string | undefined} = {};
+  const commentMap: { [attid: string]: string | undefined } = {};
   for (const c of commentRows) {
     commentMap[`${c.tableOID}:${c.columnAttrNumber}`] = c.comment;
   }
 
   const returnTypes = fields.map((f) => ({
     ...attrMap[getAttid(f)],
-    ...(commentMap[getAttid(f)] ? {comment: commentMap[getAttid(f)]} : {}),
+    ...(commentMap[getAttid(f)] ? { comment: commentMap[getAttid(f)] } : {}),
     returnName: f.name,
     type: typeMap[f.typeOID],
   }));

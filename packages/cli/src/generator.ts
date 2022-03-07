@@ -32,9 +32,11 @@ export const generateInterface = (interfaceName: string, fields: IField[]) => {
     .slice()
     .sort((a, b) => a.fieldName.localeCompare(b.fieldName));
   const contents = sortedFields
-    .map(({ fieldName, fieldType, comment }) =>
-      (comment ? `  /** ${comment} */\n` : '') +
-      `  ${fieldName}: ${fieldType};`)
+    .map(
+      ({ fieldName, fieldType, comment }) =>
+        (comment ? `  /** ${comment} */\n` : '') +
+        `  ${fieldName}: ${fieldType};`,
+    )
     .join('\n');
   return interfaceGen(interfaceName, contents);
 };
@@ -68,7 +70,11 @@ export async function queryToTypeDeclarations(
     queryData = processSQLQueryAST(parsedQuery.ast);
   }
 
-  const typeData = await getTypes(queryData, connection, config.pascalCaseTypeNames);
+  const typeData = await getTypes(
+    queryData,
+    connection,
+    config.pascalCaseTypeNames,
+  );
   const interfaceName = pascalCase(queryName);
 
   if ('errorCode' in typeData) {
@@ -78,10 +84,7 @@ export async function queryToTypeDeclarations(
       `${interfaceName}Result`,
       'never',
     );
-    const paramInterface = generateTypeAlias(
-      `${interfaceName}Params`,
-      'never',
-    );
+    const paramInterface = generateTypeAlias(`${interfaceName}Params`, 'never');
     const resultErrorComment = `/** Query '${queryName}' is invalid, so its result is assigned type 'never' */\n`;
     const paramErrorComment = `/** Query '${queryName}' is invalid, so its parameters are assigned type 'never' */\n`;
     return `${resultErrorComment}${returnInterface}${paramErrorComment}${paramInterface}`;

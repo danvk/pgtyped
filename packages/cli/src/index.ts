@@ -73,7 +73,9 @@ class FileProcessor {
         decsFileName = path.resolve(ppath.dir, `${ppath.name}.${suffix}`);
       }
 
-      const typeAllocator = new TypeAllocator(getTypeMappingForConfig(this.config));
+      const typeAllocator = new TypeAllocator(
+        getTypeMappingForConfig(this.config),
+      );
 
       const contents = fs.readFileSync(fileName).toString();
       const { declarationFileContents, typeDecs } =

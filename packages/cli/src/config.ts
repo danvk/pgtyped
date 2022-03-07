@@ -6,7 +6,6 @@ import * as t from 'io-ts';
 import { reporter } from 'io-ts-reporters';
 import tls from 'tls';
 import parseDatabaseUri, { DatabaseConfig } from 'ts-parse-database-url';
-import { boolean } from 'fp-ts';
 
 const transformCodecProps = {
   include: t.string,
